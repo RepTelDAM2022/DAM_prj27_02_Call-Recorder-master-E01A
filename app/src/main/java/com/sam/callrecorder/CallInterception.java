@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import android.telecom.PhoneAccount;
 import android.telecom.PhoneAccountHandle;
@@ -14,6 +15,12 @@ import android.telecom.TelecomManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class CallInterception extends BroadcastReceiver {
     private static final String TAG = "CallInterception : ";
@@ -28,6 +35,12 @@ public class CallInterception extends BroadcastReceiver {
 
         tm = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
         contextLocal = context;
+
+        //Intent serviceIntent = new Intent(context, CallRecorder.class);
+        //Toast.makeText(context,"CallInterception : starting CallRecorder service.",Toast.LENGTH_LONG).show();
+        //Log.i(TAG, "CallInterception : starting CallRecorder service.");
+        //context.startService(serviceIntent);
+
     }
     private static class MyPhoneStateListener extends PhoneStateListener {
 
@@ -36,6 +49,20 @@ public class CallInterception extends BroadcastReceiver {
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
             super.onCallStateChanged(state, incomingNumber);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+            String time =  dateFormat.format(new Date()) ;
+
+            Log.i(TAG, "onCallStateChanged(), time is "+ time);
+
+            File sampleDir = new File(Environment.getExternalStorageDirectory(), "/callrecorder");
+            if (!sampleDir.exists()) {
+                sampleDir.mkdirs();
+                Log.i(TAG, "onCallStateChanged(), directory created is "+ sampleDir.getAbsolutePath());
+            }
+            Log.i(TAG, "onCallStateChanged(), directory created is "+ sampleDir.getPath());
+
+
             switch (state) {
                 case TelephonyManager.CALL_STATE_IDLE:
                     // CALL_STATE_IDLE;
@@ -47,6 +74,7 @@ public class CallInterception extends BroadcastReceiver {
                     break;
                 case TelephonyManager.CALL_STATE_RINGING:
                     // CALL_STATE_RINGING
+                    //https://stackoverflow.com/questions/43027292/addincomingcall-in-android-telecommanager-not-doing-anything
                     Log.i(TAG, "onCallStateChanged: RINGING " + incomingNumber);
 
                     //tm = (TelecomManager) getSystemService(Context.TELECOM_SERVICE);
@@ -62,10 +90,8 @@ public class CallInterception extends BroadcastReceiver {
                                     "examplee");
                     }
 
-                    PhoneAccount phoneAccount = PhoneAccount.builder(phoneAccountHandle, "examplee")
-                            .setCapabilities(PhoneAccount.CAPABILITY_CALL_PROVIDER)
+                    PhoneAccount phoneAccount = PhoneAccount.builder(phoneAccountHandle, "examplee").setCapabilities(PhoneAccount.CAPABILITY_CALL_PROVIDER).build();
                             //.setCapabilities(PhoneAccount..CAPABILITY_CONNECTION_MANAGER)
-                            .build();
 
                     tm.registerPhoneAccount(phoneAccount);
 

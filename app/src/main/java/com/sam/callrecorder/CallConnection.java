@@ -34,9 +34,13 @@ public class CallConnection extends Connection{
         //Accept the Call
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onShowIncomingCallUi() {
-        Log.i("Call","Incoming Call");
+        //https://stackoverflow.com/questions/62631787/android-connectionservice-incoming-call-ui-not-showing-onshowincomingcallui
+        Log.i(TAG,"onShowIncomingCallUi() : Incoming Call");
+
+
         super.onShowIncomingCallUi();
 
         //        MainActivity con = new MainActivity();
@@ -70,20 +74,20 @@ public class CallConnection extends Connection{
         Intent intent = new Intent(Intent.ACTION_MAIN, null);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION | Intent.FLAG_ACTIVITY_NEW_TASK);
         //intent.setClass(context, IncomingCallScreenActivity.class);
-        intent.setClass(context, MainActivity.class);
+        intent.setClass(context, CallInterceptionActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, intent, 0);
 
-        Log.i("Intent1","" + intent);
-        Log.i("Intent2","" + intent.getPackage());
-        Log.i("Intent3","" + intent.getType());
-        Log.i("Intent4","" + intent.getData());
-        Log.i("Intent5","" + intent.getDataString());
-        Log.i("Intent6","" + intent.getAction());
-        Log.i("Intent7","" + intent.getCategories());
-        Log.i("Intent8","" + intent.getExtras());
+        Log.i(TAG,"onShowIncomingCallUi() Intent1 " + intent);
+        Log.i(TAG,"onShowIncomingCallUi() Intent2 " + intent.getPackage());
+        Log.i(TAG,"onShowIncomingCallUi() Intent3 " + intent.getType());
+        Log.i(TAG,"onShowIncomingCallUi() Intent4 " + intent.getData());
+        Log.i(TAG,"onShowIncomingCallUi() Intent5 " + intent.getDataString());
+        Log.i(TAG,"onShowIncomingCallUi() Intent6 " + intent.getAction());
+        Log.i(TAG,"onShowIncomingCallUi() Intent7 " + intent.getCategories());
+        Log.i(TAG,"onShowIncomingCallUi() Intent8 " + intent.getExtras());
 
-        Log.i("Pending Intent","" + pendingIntent);
-        Log.i("Pending Intent","" + pendingIntent.getCreatorPackage());
+        Log.i(TAG,"onShowIncomingCallUi() Pending Intent" + pendingIntent);
+        Log.i(TAG,"onShowIncomingCallUi() Pending Intent" + pendingIntent.getCreatorPackage());
 
         // Build the notification as an ongoing high priority item; this ensures it will show as
         // a heads up notification which slides down over top of the current content.
@@ -111,7 +115,7 @@ public class CallConnection extends Connection{
         NotificationManager notificationManager = context.getSystemService(
                 NotificationManager.class);
         notificationManager.notify("Call Notification", 37, notification);
-
+        Log.i(TAG,"onShowIncomingCallUi()/notificationManager() : fin de la méthode");
         //        context.startActivity(intent);
 
 

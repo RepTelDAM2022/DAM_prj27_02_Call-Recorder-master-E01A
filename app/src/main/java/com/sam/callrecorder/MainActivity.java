@@ -21,7 +21,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class MainActivity extends AppCompatActivity {
@@ -45,12 +48,6 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_SMS
     };
 
-
-    //Constructeur
-
-
-    //public MainActivity() {
-    //}
 
     //Init
     private void initUI(){
@@ -94,9 +91,11 @@ public class MainActivity extends AppCompatActivity {
 //
 //        PhoneAccount phoneAccount = PhoneAccount.builder(phoneAccountHandle, "examplee").setCapabilities(PhoneAccount.CAPABILITY_CALL_PROVIDER).build();
 //        tm.registerPhoneAccount(phoneAccount);
-//
+
+        //https://stackoverflow.com/questions/65794085/how-to-fix-java-lang-securityexception-this-phoneaccounthandle-is-not-enabled-f
         Intent intent=new Intent();
         intent.setClassName("com.android.server.telecom","com.android.server.telecom.settings.EnableAccountPreferenceActivity");
+
         startActivity(intent);
 //
 //        Bundle extras = new Bundle();
@@ -133,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent serviceIntent = new Intent(MainActivity.this, MyConnectionService.class);
                 Log.i(TAG,"startService MyConnectionService intent." );
                 startService(serviceIntent);
+
             }
 
          //});

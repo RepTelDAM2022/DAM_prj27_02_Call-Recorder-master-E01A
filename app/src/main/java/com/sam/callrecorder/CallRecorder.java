@@ -54,7 +54,7 @@ public class CallRecorder extends Service {
             filter.addAction(ACTION_OUT);
             filter.addAction(ACTION_IN);
             this.registerReceiver(new CallReceiver(), filter);
-            Log.i(TAG, "Registered new CallReceiver() Service.");
+            Log.i(TAG, "onStartCommand : registered new CallReceiver() Service.");
             return super.onStartCommand(intent, flags, startId);
         }
 
@@ -110,10 +110,10 @@ public class CallRecorder extends Service {
 
         public void onCallStateChanged(Context context, int state, String number) {
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
             String time =  dateFormat.format(new Date()) ;
 
-            Log.i(TAG, "onCallStateChanged(), time US is "+ time);
+            Log.i(TAG, "onCallStateChanged(), time FR is "+ time);
 
             File sampleDir = new File(Environment.getExternalStorageDirectory(), "/callrecorder");
             if (!sampleDir.exists()) {
