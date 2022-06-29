@@ -19,7 +19,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -72,8 +72,9 @@ uses-permission
             android:exported="true">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.PHONE_STATE" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action." />
+                <!--action android:name="android.intent.action.BOOT_COMPLETED" /-->
+                <!--action android:name="android.intent.action.QUICKBOOT_POWERON" /-->
             </intent-filter>
         </receiver>
     </application>

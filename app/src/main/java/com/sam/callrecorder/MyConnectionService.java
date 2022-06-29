@@ -14,6 +14,7 @@ import android.telecom.Connection;
 import android.telecom.ConnectionRequest;
 import android.telecom.ConnectionService;
 import android.telecom.PhoneAccountHandle;
+import android.telecom.TelecomManager;
 import android.util.Log;
 
 import java.io.File;
@@ -23,7 +24,7 @@ import java.util.Date;
 import java.util.Locale;
 
 //public class MyConnectionService extends Service {
-@RequiresApi(api = Build.VERSION_CODES.M)
+//@RequiresApi(api = Build.VERSION_CODES.M)
 public class MyConnectionService extends ConnectionService {
 
     private static String TAG = "MyConnectionService";
@@ -34,10 +35,10 @@ public class MyConnectionService extends ConnectionService {
     public MyConnectionService() {
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N_MR1)
+    //@RequiresApi(api = Build.VERSION_CODES.N_MR1)
     @Override
     public Connection onCreateIncomingConnection(PhoneAccountHandle connectionManagerPhoneAccount, ConnectionRequest request) {
-        Log.i(TAG,"onCreateIncomingConnection() returns a callConnection");
+        Log.i(TAG,"onCreateIncomingConnection() will return a callConnection");
         //return super.onCreateIncomingConnection(connectionManagerPhoneAccount, request);
 
         context = getApplicationContext();
@@ -65,6 +66,9 @@ public class MyConnectionService extends ConnectionService {
 
         callConnection.setActive();
 
+        //Test,
+        //callConnection.setCallerDisplayName("Manik", TelecomManager.PRESENTATION_ALLOWED);
+
         //callRecorder(request.getAddress().toString());
 
         return callConnection;
@@ -74,7 +78,7 @@ public class MyConnectionService extends ConnectionService {
     //public void callRecorder(Context context, int state, String number) {
     public void callRecorder(String number) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         String time = dateFormat.format(new Date());
 
         Log.i(TAG, "callRecorder(), time is " + time);

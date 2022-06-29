@@ -26,12 +26,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) //Android 5.0 in November 2014 Lollipop
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     //Variables
-    //ArrayList<String> permissions;
     Button btn;
 
     int PERMISSION_ALL = 1;
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Méthodes Cycle de vie
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    //@RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,10 +91,15 @@ public class MainActivity extends AppCompatActivity {
 //        PhoneAccount phoneAccount = PhoneAccount.builder(phoneAccountHandle, "examplee").setCapabilities(PhoneAccount.CAPABILITY_CALL_PROVIDER).build();
 //        tm.registerPhoneAccount(phoneAccount);
 
+        //Tests,
+        // dans la classe "CallInterception" / appel à la méthode tm.addNewIncomingCall(phoneAccountHandle, extras) affiche
+        // le message d'erreur: "java.lang.SecurityException: This PhoneAccountHandle is not enabled for this user!"
+        // Il faut l'activer au moins une fois
+        //
         //https://stackoverflow.com/questions/65794085/how-to-fix-java-lang-securityexception-this-phoneaccounthandle-is-not-enabled-f
+        //
         Intent intent=new Intent();
         intent.setClassName("com.android.server.telecom","com.android.server.telecom.settings.EnableAccountPreferenceActivity");
-
         startActivity(intent);
 //
 //        Bundle extras = new Bundle();
@@ -129,12 +133,11 @@ public class MainActivity extends AppCompatActivity {
 //                Log.i(TAG,"startService CallRecorder intent." );
 //                startService(serviceIntent);
 
-                Intent serviceIntent = new Intent(MainActivity.this, MyConnectionService.class);
-                Log.i(TAG,"startService MyConnectionService intent." );
-                startService(serviceIntent);
-
-            }
+        Intent serviceIntent = new Intent(MainActivity.this, MyConnectionService.class);
+        Log.i(TAG,"startService MyConnectionService intent." );
+        startService(serviceIntent);
+    }
 
          //});
-    }
+}
 //}
