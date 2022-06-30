@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO : gérer des préférence d'activation/désactivation d'un PhoneAccount, voir le lien,
+                // https://android.googlesource.com/platform/packages/services/Telecomm/+/5534434/src/com/android/server/telecom/settings/EnableAccountPreferenceFragment.java
                 intent = new Intent();
                 intent.setClassName("com.android.server.telecom","com.android.server.telecom.settings.EnableAccountPreferenceActivity");
                 startActivity(intent);

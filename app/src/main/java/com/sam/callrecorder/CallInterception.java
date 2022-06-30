@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+//TODO : ce BroadcastReceiver serait à remplacer par un service !?!?! A voir.
 public class CallInterception extends BroadcastReceiver {
     private static final String TAG = "CallInterception ";
     private TelecomManager telecomManager;
@@ -31,19 +32,20 @@ public class CallInterception extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        //Gestion de la telephony pour recevoir les appels entrants
+        //Gestion de la "Telephony Manager" pour recevoir les appels entrants
         TelephonyManager tmgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         MyPhoneStateListener phoneListener = new MyPhoneStateListener();
         tmgr.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
 
         myContext = context;
 
+        //220627: Code mis en commentaire mais qui peut servir pour l'enregistrement des appels
         //Intent serviceIntent = new Intent(context, CallRecorder.class);
         //Toast.makeText(context,"CallInterception : starting CallRecorder service.",Toast.LENGTH_LONG).show();
         //Log.i(TAG, "CallInterception : starting CallRecorder service.");
         //context.startService(serviceIntent);
 
-        //Gestion du Telecom Manager et d'un gestionnaire de comptes d'appels téléphoniques
+        //Gestion du "Telecom Manager" et d'un gestionnaire de comptes d'appels téléphoniques
         telecomManager = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
 
         if (phoneAccountHandle == null) {
@@ -58,6 +60,7 @@ public class CallInterception extends BroadcastReceiver {
 
             Log.i(TAG, "onReceive(), phoneAccountHandle.getId() est " + phoneAccountHandle.getId());
 
+            //TODO : vérifier les permissions de PhoneAccount
             //PhoneAccount phoneAccount = PhoneAccount.builder(phoneAccountHandle, "examplee").setCapabilities(PhoneAccount.CAPABILITY_CALL_PROVIDER).build();
             //ou
             PhoneAccount.Builder builder = new PhoneAccount.Builder(phoneAccountHandle, "examplee");
@@ -113,7 +116,7 @@ public class CallInterception extends BroadcastReceiver {
                         //tm = (TelecomManager) getSystemService(Context.TELECOM_SERVICE);
 
                         //Gestion du Handle du compte de téléphone
-                        //if (phoneAccountHandle == null) {
+                        if (phoneAccountHandle != null) {
 
                             //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //Android 6.0 in October 2015 Marshmallow API 23
 //                            phoneAccountHandle = new PhoneAccountHandle(
@@ -143,7 +146,8 @@ public class CallInterception extends BroadcastReceiver {
                         //} else {
                             //Log.i(TAG, "onReceive(), phoneAccountHandle.getId() est " + phoneAccountHandle.getId() + " User handle est " + phoneAccountHandle.getUserHandle().toString());
 
-                            //TODO : contrôler que le PhoneAccountHandle est enabled
+                            //TODO : contrôler que le PhoneAccountHandle est à enabled
+                            // https://android.googlesource.com/platform/packages/services/Telecomm/+/5534434/src/com/android/server/telecom/settings/EnableAccountPreferenceFragment.java
                             //Sinon demander d'activer, mais ici il y a un message d'erreur,
                             // android.util.AndroidRuntimeException: Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag. Is this really what you want?
                             //Intent intent2=new Intent();
@@ -171,7 +175,7 @@ public class CallInterception extends BroadcastReceiver {
                             //   } //requires permission MANAGE_OWN_CALLS
                             //}
 
-                        //}
+                        }
 
                     } else {
                         Log.i(TAG, "Evite msg d'erreur : incommingNumber est null");

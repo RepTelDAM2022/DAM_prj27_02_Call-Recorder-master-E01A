@@ -29,16 +29,14 @@ public class CallConnection extends Connection{
     //public CallConnection(){
         context = con;
         setConnectionProperties(PROPERTY_SELF_MANAGED);
-        //setAudioModeIsVoip(true); //???
-        //setActive();
-
+        //setAudioModeIsVoip(true); //On est en voice call
     }
 
     @Override
     public void onAnswer(){
         Log.d(TAG, "onAnswer() called");
         //Accept the Call
-        this.setActive();
+        this.setActive(); //???
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O) //Android Oreo 8.0 August 2017
@@ -50,7 +48,7 @@ public class CallConnection extends Connection{
 
         super.onShowIncomingCallUi();
 
-        //
+        //Code du lien URL,
         //https://developer.android.com/reference/android/telecom/Connection#onShowIncomingCallUi()
         //
         //        MainActivity con = new MainActivity();

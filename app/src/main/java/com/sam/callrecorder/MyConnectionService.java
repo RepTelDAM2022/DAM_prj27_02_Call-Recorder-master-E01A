@@ -69,6 +69,7 @@ public class MyConnectionService extends ConnectionService {
         //Test,
         //callConnection.setCallerDisplayName("Manik", TelecomManager.PRESENTATION_ALLOWED);
 
+        //TODO: Appel au MediaRecorder ici mis dans une méthode (correspond à la class CallRecorder)
         //callRecorder(request.getAddress().toString());
 
         return callConnection;
