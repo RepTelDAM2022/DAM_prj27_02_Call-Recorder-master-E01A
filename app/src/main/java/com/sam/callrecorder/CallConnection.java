@@ -41,7 +41,7 @@ public class CallConnection extends Connection{
 
     @RequiresApi(api = Build.VERSION_CODES.O) //Android Oreo 8.0 August 2017
     @Override
-    public void onShowIncomingCallUi() {
+    public void onShowIncomingCallUi() { //TODO : voir comment controler la notification
         //https://stackoverflow.com/questions/62631787/android-connectionservice-incoming-call-ui-not-showing-onshowincomingcallui
 
         Log.i(TAG,"onShowIncomingCallUi() : Incoming Call");
