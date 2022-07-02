@@ -54,7 +54,7 @@ public class CallConnection extends Connection{
         //        MainActivity con = new MainActivity();
         //        Context context = con.getApplicationContext();
 
-        NotificationChannel channel = null;
+        /**NotificationChannel channel = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //Android 8.0 Oreo in August 2017
             channel = new NotificationChannel("channel", "Incoming Calls",
                     NotificationManager.IMPORTANCE_HIGH);
@@ -198,7 +198,7 @@ public class CallConnection extends Connection{
 //        }//
 //
 //        mNotificationManager.notify(0, mBuilder.build());
-
+*/
 
 
     }
