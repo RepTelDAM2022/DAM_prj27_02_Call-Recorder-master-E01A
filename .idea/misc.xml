@@ -3,11 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/AHP/AndroidStudioProjects/DAM_prj27_04_Call-Recorder-master-E01A/app/src/main/res/drawable/ic_baseline_phone_24.xml" value="0.1365" />
+        <entry key="..\:/Users/AHP/AndroidStudioProjects/DAM_prj27_04_Call-Recorder-master-E01A/app/src/main/res/drawable/notification_logo.xml" value="0.1365" />
+        <entry key="..\:/Users/AHP/AndroidStudioProjects/DAM_prj27_04_Call-Recorder-master-E01A/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1365" />
+        <entry key="..\:/Users/AHP/AndroidStudioProjects/DAM_prj27_04_Call-Recorder-master-E01A/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1365" />
         <entry key="..\:/Users/DAM005/AndroidStudioProjects/DAM_prj27_02_Call-Recorder-master-E01A/app/src/main/res/layout/activity_call_interception.xml" value="0.2046875" />
         <entry key="..\:/Users/DAM005/AndroidStudioProjects/DAM_prj27_02_Call-Recorder-master-E01A/app/src/main/res/layout/activity_main.xml" value="0.2046875" />
         <entry key="..\:/Users/DAM005/Downloads/Call-Recorder-master-E01A/app/src/main/res/layout/activity_main.xml" value="0.22" />
       </map>
     </option>
+  </component>
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$" />
+    <option name="OPTION_SCOPE" value="public" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">

@@ -32,10 +32,20 @@ public class MyConnectionService extends ConnectionService {
     Context context;
     MediaRecorder recorder;
 
+    /**
+     * constructeur par défaut
+     */
     public MyConnectionService() {
     }
 
-    //@RequiresApi(api = Build.VERSION_CODES.N_MR1)
+    /**
+     * Après l'interception d'un appel entrant par l'application, le Système appelle cette méthode
+     * afin d'instancier un callConnection
+     * @param connectionManagerPhoneAccount
+     * @param request
+     * @return
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     @Override
     public Connection onCreateIncomingConnection(PhoneAccountHandle connectionManagerPhoneAccount, ConnectionRequest request) {
         Log.i(TAG,"onCreateIncomingConnection() will return a callConnection");
@@ -51,6 +61,7 @@ public class MyConnectionService extends ConnectionService {
 
         CallConnection callConnection = new CallConnection(context);
         callConnection.setInitializing();
+
         Log.i(TAG,"onCreateIncomingConnection() getCallerDisplayName est " + callConnection.getCallerDisplayName());
         Log.i(TAG,"onCreateIncomingConnection() getAddress est " + callConnection.getAddress());
         Log.i(TAG,"onCreateIncomingConnection() getExtras est " + callConnection.getExtras() + "\n");
@@ -64,7 +75,8 @@ public class MyConnectionService extends ConnectionService {
         Log.i(TAG,"onCreateIncomingConnection() request Address est " + request.getAddress());
         Log.i(TAG,"onCreateIncomingConnection() request Extra est " + request.getExtras());
 
-        callConnection.setActive();
+        //callConnection.setActive();
+        //Log.i(TAG,"onCreateIncomingConnection(), setActive() here ");
 
         //Test,
         //callConnection.setCallerDisplayName("Manik", TelecomManager.PRESENTATION_ALLOWED);
@@ -75,7 +87,10 @@ public class MyConnectionService extends ConnectionService {
         return callConnection;
     }
 
-
+    /** méthode repris de la classe CallRecorder pour tester
+     *
+      * @param number
+     */
     //public void callRecorder(Context context, int state, String number) {
     public void callRecorder(String number) {
 
@@ -129,7 +144,6 @@ public class MyConnectionService extends ConnectionService {
     public Connection onCreateOutgoingConnection(PhoneAccountHandle connectionManagerPhoneAccount, ConnectionRequest request) {
         return super.onCreateOutgoingConnection(connectionManagerPhoneAccount, request);
     }
-
 
     /*@Override
     public IBinder onBind(Intent intent) {
