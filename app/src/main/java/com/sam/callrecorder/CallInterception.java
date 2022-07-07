@@ -38,11 +38,26 @@ public class CallInterception extends BroadcastReceiver {
 
     static int nbFois = 0;
 
+    /**
+     * Méthode appelé à chaque changement d'état de la téléphonie dont IDLE, RINGING
+     * Init de Telephonie Manager une fois
+     * Init de Telecom Manager une fois et création du PhoneAccountHandle pour déclarer le phoneAccount
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
 
         nbFois++;
         Log.i(TAG, "onReceive(), IN nb fois est " + nbFois);
+
+        //Récupération des données de l'intent
+         String action = intent.getStringExtra("InitCallInterception");
+        if (action != null)
+            if (action.equals("Init CallInterception OK"))
+                Log.i(TAG, "onReceive(), Init de Telephony et Telecom Managers : " + action);
+            else
+                Log.i(TAG, "onReceive(), Init de Telephony et Telecom Managers : NOK");
 
         //Gestion de la "Telephony Manager" pour recevoir les appels entrants
         if (telephonyManager == null) {
@@ -64,38 +79,15 @@ public class CallInterception extends BroadcastReceiver {
         Log.i(TAG, "onReceive(), intent.getDataString()  ? "+ intent.getDataString());
 
         //Tests pour voir le contenu de l'intent
-        if (intent.getAction().equals(ACTION_PHONE_STATE))
+        if (intent.getAction()!=null && intent.getAction().equals(ACTION_PHONE_STATE))
         {
             Bundle bundle = intent.getExtras();
-
-            Log.i(TAG, "onReceive(), ACTION_PHONE_STATE : intent extras est " + intent.getExtras().toString());
-
-//            if (bundle != null)
-//            {
-//                Object[] pdus = (Object[]) bundle.get("pdus");
-//
-//                if(pdus != null) {
-//                    Log.i(TAG, "onReceive(), ACTION_PHONE_STATE : pdus length est " + pdus.length);
-//                } else {
-//                    Log.i(TAG, "onReceive(), ACTION_PHONE_STATE : pdus is null");
-//                }
-//
-//
-//                /*final SmsMessage[] messages = new SmsMessage[pdus.length];
-//                for (int i = 0; i < pdus.length; i++)  {
-//                    messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);  }
-//
-//                if (messages.length > -1)
-//                {
-//                    final String messageBody = messages[0].getMessageBody();
-//                    final String phoneNumber = messages[0].getDisplayOriginatingAddress();
-//
-//                    Toast.makeText(context, "Expediteur : " + phoneNumber, Toast.LENGTH_LONG).show();
-//                    Toast.makeText(context, "Message : " + messageBody, Toast.LENGTH_LONG).show();
-//                }*/
-//            } else {
-//                Log.i(TAG, "onReceive(), bundle is null");
-//            }
+            Log.i(TAG, "onReceive(), ACTION_PHONE_STATE : intent.getExtras() est "
+                    + intent.getExtras().toString()
+                    + "\n state = " + intent.getExtras().getString("state"));
+                    //+ "\n Data est " + intent.getDataString());
+        } else {
+            Log.i(TAG, "onReceive(), ACTION_PHONE_STATE : non");
         }
 
         //220627: Code mis en commentaire mais qui peut servir pour l'enregistrement des appels
@@ -110,8 +102,6 @@ public class CallInterception extends BroadcastReceiver {
             telecomManager = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
 
         //if (phoneAccountHandle == null) {
-
-
             phoneAccountHandle = new PhoneAccountHandle(
                     //new ComponentName(this.getApplicationContext(), MyConnectionService.class),
                     //new ComponentName(MainActivity.this, MyConnectionService.class),
@@ -139,8 +129,14 @@ public class CallInterception extends BroadcastReceiver {
 
     private class MyPhoneStateListener extends PhoneStateListener {
 
+        /**
+         * Interception des changements d'état de la téléphonie IDLE, RINGING et OFFHOOK
+         * Pour l'instant le RINGING est traité pour les appels entrants
+         * @param state
+         * @param incomingNumber
+         */
         @SuppressLint("ObsoleteSdkInt")
-        @RequiresApi(api = Build.VERSION_CODES.O) //Android Oreo 8.0 August 2017
+        @RequiresApi(api = Build.VERSION_CODES.O) //Android Oreo 8.0 August 2017 API 26
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
             super.onCallStateChanged(state, incomingNumber);
@@ -162,16 +158,16 @@ public class CallInterception extends BroadcastReceiver {
             switch (state) {
                 case TelephonyManager.CALL_STATE_IDLE:
                     // CALL_STATE_IDLE;
-                    Log.i(TAG, "onCallStateChanged() CALL_STATE_IDLE " + incomingNumber);
+                    Log.i(TAG, "\n onCallStateChanged() CALL_STATE_IDLE " + incomingNumber);
                     break;
                 case TelephonyManager.CALL_STATE_OFFHOOK:
                     // CALL_STATE_OFFHOOK;
-                    Log.i(TAG, "onCallStateChanged() CALL_STATE_OFFHOOK " + incomingNumber);
+                    Log.i(TAG, "\n onCallStateChanged() CALL_STATE_OFFHOOK " + incomingNumber);
                     break;
                 case TelephonyManager.CALL_STATE_RINGING:
                     // CALL_STATE_RINGING
                     //https://stackoverflow.com/questions/43027292/addincomingcall-in-android-telecommanager-not-doing-anything
-                    Log.i(TAG, "onCallStateChanged() CALL_STATE_RINGING " + incomingNumber);
+                    Log.i(TAG, "\n onCallStateChanged() CALL_STATE_RINGING incomingNumber est " + incomingNumber);
 
                     if (incomingNumber != null) {
                         //tm = (TelecomManager) getSystemService(Context.TELECOM_SERVICE);
@@ -179,7 +175,7 @@ public class CallInterception extends BroadcastReceiver {
                         //Gestion du Handle du compte de téléphone
                         if (phoneAccountHandle != null) {
 
-                            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //Android 6.0 in October 2015 Marshmallow API 23
+                            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { ////SDK_INT est 28 sur ASUS et CODES.M est Android 6.0 in October 2015 Marshmallow API 23
 //                            phoneAccountHandle = new PhoneAccountHandle(
 //                                    //new ComponentName(this.getApplicationContext(), MyConnectionService.class),
 //                                    //new ComponentName(MainActivity.this, MyConnectionService.class),
@@ -231,7 +227,7 @@ public class CallInterception extends BroadcastReceiver {
                             extras.putParcelable(TelecomManager.EXTRA_INCOMING_CALL_ADDRESS, uri);
                             extras.putParcelable(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, phoneAccountHandle);
 
-                            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //SDK_INT est 28 sur ASUS et CODES.O = 26
                             //    if(tm.isIncomingCallPermitted(phoneAccountHandle)) {
 
                             telecomManager.addNewIncomingCall(phoneAccountHandle, extras); //Nécessite que  "This PhoneAccountHandle is not enabled for this user!" sinon message error s'afiche.
