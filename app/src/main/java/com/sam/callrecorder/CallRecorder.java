@@ -21,7 +21,10 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
-
+/**
+ * Classe pour exemple d'enregistrements d'audio d'un appel
+ * Pas encore exploité
+ */
 public class CallRecorder extends Service {
         private static final String TAG = "CallRecorder";
 
@@ -34,7 +37,8 @@ public class CallRecorder extends Service {
         private int lastState = TelephonyManager.CALL_STATE_IDLE;
         private boolean isIncoming;
 
-        @Override
+
+    @Override
         public IBinder onBind(Intent arg0) {
             // TODO Auto-generated method stub
             Log.i(TAG, "onBind()");
